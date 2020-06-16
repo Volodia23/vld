@@ -6,7 +6,6 @@ pipeline {
             steps {
                 script {
                     cleanWs()
-                    //git(branch: 'master', credentialsId: 'IvanSitnikovGit', url: 'https://github.com/sitozzz/jenkins_education.git')
                 }
                 script {
                     echo 'Update from repository'
