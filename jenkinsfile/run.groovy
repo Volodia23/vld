@@ -28,6 +28,14 @@ pipeline {
                 }
             }
         }
+        stage ('Get stats & write to file'){
+            steps{
+                script{
+                    sh "docker exec -it ivan_sitnikov_nginx df -h >> ${WORKSPACE}/stats.txt"
+                    sh "docker exec -it ivan_sitnikov_nginx top -n 1 -b >> ${WORKSPACE}/stats.txt"
+                }
+            }
+        }
         
     }
 
