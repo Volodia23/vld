@@ -54,7 +54,11 @@ pipeline {
                         usernameVariable: 'username',
                         passwordVariable: 'password')
                     ]) {
-                        sh "echo '${password}' | sudo -S truncate -s 0 ${WORKSPACE}/stats.txt"
+                        try {
+                            sh "truncate -s 0 ${WORKSPACE}/stats.txt"
+                        } catch (Exception e) {
+                            print 'file exist'
+                        }
                         sh "echo '${password}' | sudo -S docker exec -t isng df -h >> ${WORKSPACE}/stats.txt"
                         //sh "echo '${password}' | sudo -S docker exec -t isng -c 'top -n 1 -b' >> ${WORKSPACE}/stats.txt"
                     }
