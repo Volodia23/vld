@@ -28,7 +28,7 @@ pipeline {
                         passwordVariable: 'password')
                     ]) {
 
-                        sh "echo '${password}' | sudo -S docker build ${WORKSPACE}/auto -t ivan_sitnikov_nginx"
+                        sh "echo '${password}' | sudo -S docker build ${WORKSPACE}/auto -it ivan_sitnikov_nginx"
                         sh "echo '${password}' | sudo -S docker run -d ivan_sitnikov_nginx"
                     }
                 }
