@@ -41,7 +41,7 @@ pipeline {
                     ]) {
 
                         sh "echo '${password}' | sudo -S docker build ${WORKSPACE}/auto -t ivan_sitnikov_nginx "
-                        sh "echo '${password}' | sudo -S docker run -d --name isng ivan_sitnikov_nginx"
+                        sh "echo '${password}' | sudo -S docker run -d -p 8123:80 --name isng ivan_sitnikov_nginx"
                     }
                 }
             }
