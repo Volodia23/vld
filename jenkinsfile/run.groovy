@@ -11,8 +11,12 @@ pipeline {
                         usernameVariable: 'username',
                         passwordVariable: 'password')
                     ]) {
-                        sh "echo '${password}' | sudo -S docker stop isng"
-                        sh "echo '${password}' | sudo -S docker container isng"
+                        try {
+                            sh "echo '${password}' | sudo -S docker stop isng"
+                            sh "echo '${password}' | sudo -S docker container isng"
+                        } catch (Exception e) {
+                            print 'container not exist, skip clean'
+                        }
                     }
                 }
                 script {
