@@ -6,6 +6,14 @@ pipeline {
             steps {
                 script {
                     cleanWs()
+                    withCredentials([
+                        usernamePassword(credentialsId: 'srv_sudo',
+                        usernameVariable: 'username',
+                        passwordVariable: 'password')
+                    ]) {
+                        sh "echo '${password}' | sudo -S docker stop isng"
+                        sh "echo '${password}' | sudo -S docker container isng"
+                    }
                 }
                 script {
                     echo 'Update from repository'
