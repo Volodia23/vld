@@ -13,7 +13,7 @@ pipeline {
                     ]) {
                         try {
                             sh "echo '${password}' | sudo -S docker stop isng"
-                            sh "echo '${password}' | sudo -S docker container isng"
+                            sh "echo '${password}' | sudo -S docker container rm isng"
                         } catch (Exception e) {
                             print 'container not exist, skip clean'
                         }
