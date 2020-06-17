@@ -28,7 +28,7 @@ pipeline {
                         passwordVariable: 'password')
                     ]) {
 
-                        sh "echo '${password}' | sudo -S docker build ${WORKSPACE}/auto -it ivan_sitnikov_nginx"
+                        sh "echo '${password}' | sudo -S docker build ${WORKSPACE}/auto -t ivan_sitnikov_nginx --name ivan_sitnikov_nginx"
                         sh "echo '${password}' | sudo -S docker run -d ivan_sitnikov_nginx"
                     }
                 }
@@ -42,8 +42,8 @@ pipeline {
                         usernameVariable: 'username',
                         passwordVariable: 'password')
                     ]) {
-                        sh "echo '${password}' | sudo -S docker exec -it ivan_sitnikov_nginx df -h >> ${WORKSPACE}/stats.txt"
-                        sh "echo '${password}' | sudo -S docker exec -it ivan_sitnikov_nginx top -n 1 -b >> ${WORKSPACE}/stats.txt"
+                        sh "echo '${password}' | sudo -S docker exec -t ivan_sitnikov_nginx df -h >> ${WORKSPACE}/stats.txt"
+                        sh "echo '${password}' | sudo -S docker exec -t ivan_sitnikov_nginx top -n 1 -b >> ${WORKSPACE}/stats.txt"
                     }
                 }
             }
