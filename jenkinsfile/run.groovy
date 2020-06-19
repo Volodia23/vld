@@ -41,7 +41,7 @@ pipeline {
                     ]) {
 
                         sh "echo '${password}' | sudo -S docker build ${WORKSPACE}/auto -t ivan_sitnikov_nginx"
-                        sh "echo '${password}' | sudo -S docker run -d -p 8123:80 --name isng -v /home/adminci/is_mount_dir:/stats ivan_sitnikov_nginx"
+                        sh "echo '${password}' | sudo -S docker run -d -p 8123:80 --name isng -v /home/adminci/is_mount_dir:/stat ivan_sitnikov_nginx"
                     }
                 }
             }
@@ -54,13 +54,9 @@ pipeline {
                         usernameVariable: 'username',
                         passwordVariable: 'password')
                     ]) {
-                        try {
-                            sh "truncate -s 0 ${WORKSPACE}/stats.txt"
-                        } catch (Exception e) {
-                            print 'file exist'
-                        }
-                        sh "echo '${password}' | sudo -S docker exec -t isng df -h >> /stats/stats.txt"
-                        sh "echo '${password}' | sudo -S docker exec -t isng top -n 1 -b >> /stats/stats.txt"
+                        
+                        sh "echo '${password}' | sudo -S docker exec -t isng df -h > /stat/stats.txt"
+                        sh "echo '${password}' | sudo -S docker exec -t isng top -n 1 -b >> /stat/stats.txt"
                     }
                 }
             }
