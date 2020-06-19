@@ -60,7 +60,7 @@ pipeline {
                             print 'file exist'
                         }
                         sh "echo '${password}' | sudo -S docker exec -t isng df -h >> ${WORKSPACE}/stats.txt"
-                        sh "echo '${password}' | sudo -S docker exec -t isng -c 'top -n 1 -b' >> ${WORKSPACE}/stats.txt"
+                        sh "echo '${password}' | sudo -S docker exec -t isng top -n 1 -b >> ${WORKSPACE}/stats.txt"
                     }
                 }
             }
