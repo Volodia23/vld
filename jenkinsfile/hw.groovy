@@ -2,7 +2,7 @@
 pipeline {
     agent{node('master')}
     stages {
-        stage('Clean workspace & dowload dist') {
+        stage('Cleaning WS and get file from repo') {
             steps {
                 script {
                     cleanWs()
@@ -12,22 +12,22 @@ pipeline {
                         passwordVariable: 'password')
                     ]) {
                         try {
-                            sh "echo '${password}' | sudo -S docker stop isng"
-                            sh "echo '${password}' | sudo -S docker container rm isng"
+                            sh "echo '${password}' | sudo -S docker stop es"
+                            sh "echo '${password}' | sudo -S docker container rm es"
                         } catch (Exception e) {
                             print 'container not exist, skip clean'
                         }
                     }
                 }
                 script {
-                    echo 'Update from repository'
+                    echo 'UPD REPO'
                     checkout([$class                           : 'GitSCM',
                               branches                         : [[name: '*/master']],
                               doGenerateSubmoduleConfigurations: false,
                               extensions                       : [[$class           : 'RelativeTargetDirectory',
                                                                    relativeTargetDir: 'auto']],
                               submoduleCfg                     : [],
-                              userRemoteConfigs                : [[credentialsId: 'IvanSitnikovGit', url: 'https://github.com/sitozzz/jenkins_education.git']]])
+                              userRemoteConfigs                : [[credentialsId: '	EgorShangin', url: 'https://github.com/EgorShangin/hw.git']]])
                 }
             }
         }
@@ -40,13 +40,13 @@ pipeline {
                         passwordVariable: 'password')
                     ]) {
 
-                        sh "echo '${password}' | sudo -S docker build ${WORKSPACE}/auto -t ivan_sitnikov_nginx"
-                        sh "echo '${password}' | sudo -S docker run -d -p 8123:80 --name isng -v /home/adminci/is_mount_dir:/stat ivan_sitnikov_nginx"
+                        sh "echo '${password}' | sudo -S docker build ${WORKSPACE}/auto -t es_nginx"
+                        sh "echo '${password}' | sudo -S docker run -d -p 8144:80 --name es -v /home/adminci/study_ansible/Shangin:/result es_nginx"
                     }
                 }
             }
         }
-        stage ('Get stats & write to file'){
+        stage ('write info into the file'){
             steps{
                 script{
                     withCredentials([
@@ -55,8 +55,8 @@ pipeline {
                         passwordVariable: 'password')
                     ]) {
                         
-                        sh "echo '${password}' | sudo -S docker exec -t isng bash -c 'df -h > /stat/stats.txt'"
-                        sh "echo '${password}' | sudo -S docker exec -t isng bash -c 'top -n 1 -b >> /stat/stats.txt'"
+                        sh "echo '${password}' | sudo -S docker exec -t isng bash -c 'df -h > /result/info.txt'"
+                        sh "echo '${password}' | sudo -S docker exec -t isng bash -c 'top -n 1 -b >> /result/info.txt'"
                     }
                 }
             }
